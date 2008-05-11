@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE superkaramba_theme>
+<superkaramba_theme>
+	<themefile>stoptimer.theme</themefile>
+	<python_module>stoptimer.py</python_module>
+	<name>StopTimer</name>
+	<icon>timer.png</icon>
+	<description>Timer and Stopwatch</description>
+	<author>Michael Goerz</author>
+	<author_email>michaelgoerz@gmail.com</author_email>
+	<homepage></homepage>
+	<version>1.0</version>
+	<license>GPL-2</license>
+</superkaramba_theme>

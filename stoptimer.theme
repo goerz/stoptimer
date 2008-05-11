@@ -1,0 +1,34 @@
+# Timer theme
+# by David Stefka, davidstefka@tiscali.cz
+
+karamba x=30 y=30 w=233 h=188 interval=1000 locked=true
+
+#background
+image x=0 y=0 path="img/background.png"
+
+defaultfont font="arial" fontsize=14 color=0,0,0
+
+# timer
+<group>    x=80 y=25
+text x=5 y=0 name="hours" value="0" font="arial black" fontsize=20 align="right"
+text x=15 y=-3 value=":" font="arial black" fontsize=20 align="right"
+text x=45 y=0 name="minutes" value="00" font="arial black" fontsize=20 align="right"
+text x=55 y=-3 value=":" font="arial black" fontsize=20 align="right"
+text x=85 y=0 name="seconds" value="00" font="arial black" fontsize=20 align="right"
+</group>
+
+# progress bar
+<group> x=26 y=80
+image x=0 y=0 path="img/barBackground.png"
+bar x=2 y=2 w=176 h=13 min=0 max=100 name="progress" vertical=false path="img/progressBar.png" value=100
+</group>
+
+# done ?
+image x=83 y=60 path="img/done.png" name="done"
+
+
+# control
+<group> x=45 y=110
+image x=0 y=0 path="img/start.png" name="start"
+image x=85 y=0 path="img/stop.png" name="end"
+</group>
