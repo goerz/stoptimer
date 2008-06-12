@@ -145,6 +145,7 @@ raised_alarm = False
 startButton = None
 endButton = None
 progressBar = None
+curtimefile = None
 done = None      # "done" image widget
 hours = None     # these ...
 minutes = None   # ... are the...
@@ -161,6 +162,7 @@ def initWidget(widget):
     global startButton
     global endButton
     global progressBar
+    global curtimefile
     global done      # "done" image widget
     global hours     # these ...
     global minutes   # ... are the...
@@ -188,13 +190,28 @@ def initWidget(widget):
     print "alarmtime from config: %s" % alarmtime_str
     alarmtime.from_string(alarmtime_str)
 
-    # set curtime from last used time
-    curtime_str = str(karamba.readConfigEntry(widget, "curtime"))
-    print "curtime from config: %s" % curtime_str
-    curtime.from_string(curtime_str)
+
+    # set time from last used time
+    curtimefile =  os.path.join(os.environ['HOME'], \
+                                '.superkaramba', \
+                                'stoptimer', \
+                                'curtime')
+    if os.path.isfile(curtimefile):
+        curtimefh = open(curtimefile)
+        curtimestring = curtimefh.read()
+        curtime.from_string(curtimestring)
+        curtimefh.close()
+    else:
+        if not os.path.isdir( \
+         os.path.join(os.environ['HOME'], '.superkaramba')):
+            os.mkdir(os.path.join(os.environ['HOME'], '.superkaramba'))
+        if not os.path.isdir( \
+        os.path.join(os.environ['HOME'], '.superkaramba', 'stoptimer')):
+            os.mkdir(os.path.join( \
+                     os.environ['HOME'], '.superkaramba', 'stoptimer'))
 
     showTime(widget, curtime)
-    
+
 
 
 def widgetUpdated(widget):
@@ -228,8 +245,10 @@ def widgetUpdated(widget):
         karamba.redrawWidget(widget)
 
         # write current time to file
-        karamba.writeConfigEntry(widget, "curtime", str(curtime))
-       
+        curtimefh = open(curtimefile, "w")
+        curtimefh.write(str(curtime))
+        curtimefh.close()
+
         # alarm?
         if not raised_alarm:
             if (stopwatchmode and (curtime.time >= alarmtime.time)) \
@@ -279,7 +298,9 @@ def meterClicked(widget, meter, button):
             showTime(widget, curtime)
             karamba.showImage(widget, done)
             karamba.hideBar(widget, progressBar)
-            karamba.writeConfigEntry(widget, "curtime", str(curtime))
+            curtimefh = open(curtimefile, "w")
+            curtimefh.write(str(curtime))
+            curtimefh.close()
             karamba.setImagePath(widget, startButton, "img/start.png")
             karamba.setImagePath(widget, endButton, "img/stop.png")
             raised_alarm = False
